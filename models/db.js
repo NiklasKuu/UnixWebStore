@@ -23,6 +23,8 @@ mongoose.connection.on('disconnected', function() {
 
 // users schema
 // BRING IN YOUR SCHEMAS & MODELS
+require('./schemas/user');
+require('./schemas/product');
 
 
 
