@@ -11,11 +11,12 @@ module.exports.listAllProducts = function(req,res){
 	productModel.find({},function(err,data){
 		if(err){
 			respond(res,400,{"error": err});
-		}
-		for(let i = 0; i < data.length;i++){
+		} else {
+			for(let i = 0; i < data.length;i++){
 			data[i].price = (data[i].price/100).toFixed(2);
+			}
+			respond(res,200,data);
 		}
-		respond(res,200,data);
 	});
 
 
@@ -31,8 +32,10 @@ module.exports.createNewProduct = function(req,res){
 	newProduct.save(function(err){
 		if(err){
 			respond(res,400,{"error": err});
+		} else {
+			respond(res,200,{"message": "product created"});
 		}
-		respond(res,200,{"message": "product created"});
+		
 	});
 
 }

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const userModel = mongoose.model('UserModel');
 
-const response = function(res,status,content){
+const respond = function(res,status,content){
 	res.status(status);
 	res.json(content);
 }
@@ -9,11 +9,28 @@ const response = function(res,status,content){
 
 
 module.exports.listAllUsers = function(req,res){
-	res.status(200);
-	res.json({"message": "Here are all the users"});
+	userModel.find(function(err,data){
+		if(err){
+			respond(res,400,{"error":err});
+		} else {
+			respond(res,200,data);	
+		}
+	});
 }
 
 module.exports.createNewUser = function(req,res){
-	res.status(200);
-	res.json({"message": "this resource creates a new user"});
+	let newUser = new userModel();
+
+	newUser.name = req.body.name;
+	newUser.email = req.body.email;
+	newUser.setPassword(req.body.password);
+	newUser.accountType = req.body.accountType;
+
+	newUser.save(function(err){
+		if(err){
+			respond(res,400,{"error":err});
+		} else {
+			respond(res,200,{"message": "A new user was created"});	
+		}
+	});
 }
