@@ -32,6 +32,7 @@ userSchema.methods.generateJwt = function(){
 		_id: this._id,
 		email: this.email,
 		name: this.name,
+		accountType: this.accountType,
 		exp: parseInt(expiry.getTime() / 1000),  
 	}, process.env.JWT_SECRET); // CHANGE THIS BEFORE RETURNING TO TEACHER, ADD TO ENV VARIABLE. INSTRUCTIONS CAN BE FOUND IN THE GETTING MEAN BOOK
 };

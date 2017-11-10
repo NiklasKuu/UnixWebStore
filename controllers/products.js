@@ -28,6 +28,7 @@ module.exports.createNewProduct = function(req,res){
 	newProduct.name = req.body.name;
 	newProduct.description = req.body.description;
 	newProduct.setPrice(req.body.price);
+	newProduct.stock = req.body.stock;
 
 	newProduct.save(function(err){
 		if(err){
@@ -35,7 +36,6 @@ module.exports.createNewProduct = function(req,res){
 		} else {
 			respond(res,200,{"message": "product created"});
 		}
-		
 	});
 
 }
