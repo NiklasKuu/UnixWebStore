@@ -64,7 +64,7 @@ module.exports.deleteUser = function(req,res){
 			if(err){
 				respond(res,400,err);
 			} else {
-				respond(res,200,{"message":"User deleted successfully"});
+				respond(res,200,{"message":"User deleted successfully."});
 			}
 		});
 	} else {

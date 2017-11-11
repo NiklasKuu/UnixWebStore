@@ -1,7 +1,16 @@
 doctype html
-html
+html(ng-app='webstore')
   head
-    title= title
+    title= 'Pete\'s Web Store'
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.min.css')
+    script(src='/javascripts/bootstrap.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-resource.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-route.js')
+    script(src='/javascripts/jquery.min.js')
+    script(src='/javascripts/angularControllers.js')
+    script(src='/javascripts/webStore.js')
   body
     block content
