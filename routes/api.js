@@ -11,8 +11,9 @@ const ctrlAuth = require('../controllers/authentication');
 
 
 //Users
-router.get('/users',ctrlUsers.listAllUsers);
+router.get('/users',, auth, ctrlUsers.listAllUsers);
 router.post('/users',auth ,ctrlUsers.createNewUser);
+router.delete('/users/:id', auth, ctrlUsers.deleteUser);
 
 //User Authentication
 router.post('/register', ctrlAuth.register);

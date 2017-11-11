@@ -6,6 +6,13 @@ const respond = function(res,status,content){
 	res.json(content);
 }
 
+const notAuthorized = function(res,accountType,neededType){
+	respond(res,401,{
+			"message": "UnauthorizedError: User is not authorized to commit this action.\
+			 Was " + accountType + " needs to be: " + neededType
+		});
+}
+
 
 module.exports.listAllProducts = function(req,res){
 	productModel.find({},function(err,data){
@@ -52,10 +59,7 @@ module.exports.createNewProduct = function(req,res){
 			}
 		});
 	} else {
-		respond(res,401,{
-			"message": "UnauthorizedError: User is not authorized to commit this action. \
-			Was " + req.payload.accountType + " needs to be 1"
-		});
+		notAuthorized(res,req.payload.accountType,1);
 	}
 }
 
@@ -91,10 +95,7 @@ module.exports.editProduct = function(req,res){
 		})
 
 	} else {
-		respond(res,401,{
-			"message": "UnauthorizedError: User is not authorized to commit this action.\
-			 Was " + req.payload.accountType + " needs to be 1"
-		});
+		notAuthorized(res,req.payload.accountType,1);
 	}
 };
 
@@ -124,10 +125,7 @@ module.exports.editProductStock = function(req,res){
 			}
 		});
 	} else {
-		respond(res,401,{
-			"message": "UnauthorizedError: User is not authorized to commit this action.\
-			 Was " + req.payload.accountType + " needs to be 2 or 3"
-		});
+		notAuthorized(res,req.payload.accountType,2);
 	}
 }
 
@@ -145,9 +143,6 @@ module.exports.deleteProduct = function(req,res){
 		});
 
 	} else {
-		respond(res,401,{
-			"message": "UnauthorizedError: User is not authorized to commit this action.\
-			 Was " + req.payload.accountType + " needs to be 1"
-		});		
+		notAuthorized(res,req.payload.accountType,1);	
 	}
 }
