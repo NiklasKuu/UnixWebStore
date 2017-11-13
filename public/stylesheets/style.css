@@ -1,4 +1,7 @@
-
+/*
+*{
+	outline: 1px solid blue;
+}*/
 
 .navbar-default{
 	border-radius: 0px;
@@ -11,6 +14,20 @@
 
 /* home page */
 
-.carousel-image{
-	width:100%;
+.home-product-button{
+	border-radius: 15px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width:80%;
+}
+.home-product-container > p{
+	text-align: center;
+}
+
+.home-product-image{	
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
 }

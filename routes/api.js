@@ -26,5 +26,6 @@ router.get('/products/:id', ctrlProducts.getProduct);
 router.put('/products/:id', auth, ctrlProducts.editProduct);
 router.delete('/products/', auth, ctrlProducts.deleteProduct);
 router.put('/products/:id/stock', auth, ctrlProducts.editProductStock);
+router.post('/products/:id/purchase', auth, ctrlProducts.purchaseProduct);
 
 module.exports = router;

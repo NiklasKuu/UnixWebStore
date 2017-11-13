@@ -4,7 +4,8 @@ const jsonWebToken = require('jsonwebtoken');
 
 const purchaseSchema = new mongoose.Schema({
 	product: { type: mongoose.Schema.Types.ObjectId, required: true},
-	amount: {type: Number, required: true}
+	amount: {type: Number, required: true},
+	timeStapm: {type: Date, "default": Date.now}
 });
 
 
