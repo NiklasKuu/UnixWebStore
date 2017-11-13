@@ -2,12 +2,19 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const jsonWebToken = require('jsonwebtoken');
 
+const purchaseSchema = new mongoose.Schema({
+	product: { type: mongoose.Schema.Types.ObjectId, required: true},
+	amount: {type: Number, required: true}
+});
+
+
 const userSchema = new mongoose.Schema({
 	name: { type: String, required: true},
 	email: { type: String, required: true, unique: true},
 	hash: String,
 	salt: String,
-	accountType: { type: Number, required: true, min: 1, max: 3}
+	accountType: { type: Number, required: true, min: 1, max: 3},
+	purchases: [purchaseSchema]
 });
 
 //encryṕts given password and sets users salt and hash
