@@ -4,7 +4,9 @@ const productSchema = new mongoose.Schema({
 	name: {type:String, required: true},
 	description: {type:String, required: false},
 	price: {type: Number},
-	stock: {type: Number, default: 0}
+	stock: {type: Number, "default": 0},
+	bought: {type: Number, "default": 0},
+	timeStamp: {type: Date, "default":Date.now}
 });
 
 productSchema.methods.setPrice = function(number){
