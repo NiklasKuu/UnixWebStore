@@ -21,3 +21,10 @@ var homeCtrl = function($scope,$resource){
 	}
 
 };
+
+var productCtrl = function($scope,$resource){
+	var AllProducts = $resource('/api/products');
+	AllProducts.query(function(allProducts){
+		$scope.products = allProducts;
+	});
+}
