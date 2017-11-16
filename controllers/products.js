@@ -157,6 +157,8 @@ module.exports.purchaseProduct = function(req,res){
 		} else {
 			if((req.body.amount * data.price) > req.body.payment){
 				respond(res,400,{"message": "Payment was not large enough."})
+			} else if((data.stock - req.body.amount ) < 0){
+				respond(res,400,{"message": "Product does not have enough stock for purchase"});
 			} else {
 				userModel.findOne({_id:req.payload._id},function(err,foundUser){
 					if(err){

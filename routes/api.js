@@ -22,6 +22,8 @@ router.post('/login', ctrlAuth.login);
 //Products
 router.get('/products', auth, ctrlProducts.listAllProducts);
 router.post('/products', auth, ctrlProducts.createNewProduct);
+router.get('/products/newest',ctrlProducts.findNewest);
+router.get('/products/popular',ctrlProducts.findPopular);
 router.get('/products/:id', ctrlProducts.getProduct);
 router.put('/products/:id', auth, ctrlProducts.editProduct);
 router.delete('/products/', auth, ctrlProducts.deleteProduct);
