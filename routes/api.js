@@ -20,7 +20,7 @@ router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
 
 //Products
-router.get('/products', auth, ctrlProducts.listAllProducts);
+router.get('/products', ctrlProducts.listAllProducts);
 router.post('/products', auth, ctrlProducts.createNewProduct);
 router.get('/products/newest',ctrlProducts.findNewest);
 router.get('/products/popular',ctrlProducts.findPopular);
