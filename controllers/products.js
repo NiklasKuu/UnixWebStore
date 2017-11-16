@@ -196,6 +196,9 @@ module.exports.findNewest = function(req,res){
 		if(err){
 			respond(res,400,err);
 		} else {
+			for(let i = 0; i < data.length;i++){ // setting price to correct form for each entry
+				data[i].price = (data[i].price/100).toFixed(2);
+			}
 			respond(res,200,data);
 		}
 	});
@@ -206,6 +209,9 @@ module.exports.findPopular = function(req,res){
 		if(err){
 			respond(res,400,err);
 		} else {
+			for(let i = 0; i < data.length;i++){ // setting price to correct form for each entry
+				data[i].price = (data[i].price/100).toFixed(2);
+			}
 			respond(res,200,data);
 		}
 	});

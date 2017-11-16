@@ -14,7 +14,7 @@ app.config(['$routeProvider', function($routeProvider){
 
 
 
-app.controller('HomeCtrl', ['$scope',homeCtrl]);
+app.controller('HomeCtrl', ['$scope','$resource',homeCtrl]);
 
 
 

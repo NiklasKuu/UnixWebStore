@@ -26,6 +26,31 @@
   </div>
 
   <!--New Deals Grid layout test -->
+
+  <div class="row">
+     <div ng-repeat='product in newProducts' class="col-md-3 col-xs-12 home-product-container">
+      <img class="home-product-image" src="images/Placeholder.jpg"/>
+      <p><b>{{product.name}}</b></p>
+      <p><b>{{product.price}}$</b></p>
+      <a href="#" class="btn btn-success home-product-button" role="button">View Details</a>  
+    </div> 
+  </div>
+
+  <div class="page-header">
+    <h1>Most Popular Products</h1>
+  </div>
+
+  <!-- Most popular products -->
+  <div class="row">
+    <div ng-repeat="product in popularProducts" class="col-md-3 col-xs-12 home-product-container">
+      <img class="home-product-image" src="images/Placeholder.jpg"/>
+      <p><b>{{product.name}}</b></p>
+      <p><b>{{product.price}}$</b></p>
+      <a href="#" class="btn btn-success home-product-button" role="button">View Details</a>  
+    </div>
+  </div>
+
+  <!--
   <div class="row">
     <div class="col-md-3 col-xs-12 home-product-container">
       <img class="home-product-image" src="images/Placeholder.jpg"/>
@@ -55,8 +80,9 @@
   <div class="page-header">
     <h1>Most Popular Products</h1>
   </div>
-
+  -->
   <!--New Deals Grid layout test -->
+  <!--
   <div class="row">
     <div class="col-md-3 col-xs-12 home-product-container">
       <img class="home-product-image" src="images/Placeholder.jpg"/>
@@ -83,4 +109,5 @@
       <a href="#" class="btn btn-success home-product-button" role="button">View Details</a>  
     </div>
   </div>
+  -->
 </div>
