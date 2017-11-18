@@ -11,6 +11,10 @@ app.config(['$routeProvider', function($routeProvider){
         	templateUrl: 'partials/products.html',
         	controller: 'ProductCtrl'
         })
+        .when('/search/:name',{
+        	templateUrl: 'partials/searchList.html',
+        	controller: 'SearchCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });
@@ -18,9 +22,9 @@ app.config(['$routeProvider', function($routeProvider){
 
 
 //controller definition
-app.controller('HomeCtrl', ['$scope','$resource',homeCtrl]);
-app.controller('ProductCtrl',['$scope','$resource',productCtrl]);
-
+app.controller('HomeCtrl', ['$scope','$resource','$location',homeCtrl]);
+app.controller('ProductCtrl',['$scope','$resource','$location',productCtrl]);
+app.controller('SearchCtrl',['$scope','$resource','$routeParams','$location',searchCtrl]);
 
 
 

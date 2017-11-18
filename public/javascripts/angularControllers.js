@@ -1,4 +1,4 @@
-var homeCtrl = function($scope,$resource){
+var homeCtrl = function($scope,$resource,$location){
 	var NewestProducts = $resource('/api/products/newest')
 	NewestProducts.query(function(newestProductsList){
 		$scope.newProducts = newestProductsList.slice(0,4);
@@ -13,18 +13,62 @@ var homeCtrl = function($scope,$resource){
 		AllProducts.query(function(fullProductlist){
 			for(var i = 0; i < fullProductlist.length;i++){	//checking each product and checking if user input is a sub string
 				if(fullProductlist[i].name.toLowerCase().indexOf($scope.productSearch.toLowerCase()) !== -1){
-					console.log(fullProductlist[i].name.toLowerCase() + ":" + $scope.productSearch.toLowerCase());
 					$scope.productSearchRecomendation.push(fullProductlist[i].name);
 				}
 			}
 		});
 	}
 
+	$scope.submit = function(){
+		$location.path('/search/'+$scope.productSearch);
+	}
 };
 
-var productCtrl = function($scope,$resource){
+var productCtrl = function($scope,$resource,$location){
 	var AllProducts = $resource('/api/products');
 	AllProducts.query(function(allProducts){
 		$scope.products = allProducts;
 	});
+
+	$scope.generateRecomendation = function(){
+		$scope.productSearchRecomendation = new Array();
+		AllProducts.query(function(fullProductlist){
+			for(var i = 0; i < fullProductlist.length;i++){	//checking each product and checking if user input is a sub string
+				if(fullProductlist[i].name.toLowerCase().indexOf($scope.productSearch.toLowerCase()) !== -1){
+					$scope.productSearchRecomendation.push(fullProductlist[i].name);
+				}
+			}
+		});
+	}
+
+	$scope.submit = function(){
+		$location.path('/search/'+$scope.productSearch);
+	}
 }
+
+var searchCtrl = function($scope, $resource,$routeParams,$location){
+	var AllProducts = $resource('/api/products');
+	AllProducts.query(function(allProducts){
+		$scope.searchResults = new Array();
+		for(var i = 0; i < allProducts.length;++i){
+			if(allProducts[i].name.toLowerCase().indexOf($routeParams.name.toLowerCase()) !== -1){
+				$scope.searchResults.push(allProducts[i]);
+			}
+		}
+	});
+
+	$scope.generateRecomendation = function(){
+		$scope.productSearchRecomendation = new Array();
+		AllProducts.query(function(fullProductlist){
+			for(var i = 0; i < fullProductlist.length;i++){	//checking each product and checking if user input is a sub string
+				if(fullProductlist[i].name.toLowerCase().indexOf($scope.productSearch.toLowerCase()) !== -1){
+					$scope.productSearchRecomendation.push(fullProductlist[i].name);
+				}
+			}
+		});
+	}
+
+	$scope.submit = function(){
+		$location.path('/search/'+$scope.productSearch);
+	}
+};
