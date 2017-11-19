@@ -6,7 +6,7 @@
     </div>
     <ul class="nav navbar-nav">
       <li><a href="/#/">Home</a></li>
-      <li class="active"><a href="/#/products">Products</a></li>
+      <li><a href="/#/products">Products</a></li>
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
@@ -25,16 +25,17 @@
   </div>
 </nav>
 <div class="container">
-
   <div class="page-header">
-    <h1>All Products</h1>
+    <h1>{{product.name}}</h1>
   </div>
-
-  <div ng-repeat="product in products" class="col-md-3 col-xs-12 home-product-container top-buffer">
+  <div class="col-md-6 col-xs-12">
     <img class="home-product-image" src="images/Placeholder.jpg"/>
-    <p><b>{{product.name}}</b></p>
-    <p><b>{{product.price}}$</b></p>
-    <a href="{{'/#/product/' + product._id}}" class="btn btn-success home-product-button" role="button">View Details</a>  
   </div>
-
+  <div class="col-md-6 col-xs-12">
+    <button type="button" class="btn btn-primary product-purchase-button"><span class="glyphicon glyphicon-shopping-cart"></span> Purchase</button>
+    <p><b>price: {{product.price}}€</b></p>
+    <p><b>stock: {{product.stock}} units</b></p>
+    <h3>Description</h3>
+    <p>{{product.description}}</p>
+  </div>
 </div>

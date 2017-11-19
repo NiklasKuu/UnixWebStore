@@ -34,3 +34,13 @@
 	margin-right: auto;
 	width: 200px;
 }
+
+
+/* product page */
+
+.product-purchase-button{
+	margin-bottom: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%;
+}

@@ -69,7 +69,10 @@ module.exports.getProduct = function(req,res){
 		if(err){
 			respond(res,400,err);
 		} else {
-			respond(res,200,data);
+			data.price = (data.price/100).toFixed(2);
+			singleDataArray = new Array();
+			singleDataArray.push(data);
+			respond(res,200,singleDataArray);
 		}
 	});
 }

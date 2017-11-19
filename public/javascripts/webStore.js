@@ -9,22 +9,30 @@ app.config(['$routeProvider', function($routeProvider){
         })
         .when('/products',{
         	templateUrl: 'partials/products.html',
-        	controller: 'ProductCtrl'
+        	controller: 'ProductListCtrl'
         })
         .when('/search/:name',{
         	templateUrl: 'partials/searchList.html',
         	controller: 'SearchCtrl'
+        })
+        .when('/product/:id',{
+        	templateUrl: 'partials/product.html',
+        	controller: 'ProductCtrl'
         })
         .otherwise({
             redirectTo: '/'
         });
 }]);
 
+//service defintion
+
+app.service('authentication', ['$window','$http', authenticationService]);
+
 
 //controller definition
 app.controller('HomeCtrl', ['$scope','$resource','$location',homeCtrl]);
-app.controller('ProductCtrl',['$scope','$resource','$location',productCtrl]);
+app.controller('ProductListCtrl',['$scope','$resource','$location',productListCtrl]);
 app.controller('SearchCtrl',['$scope','$resource','$routeParams','$location',searchCtrl]);
-
+app.controller('ProductCtrl',['$scope','$resource','$routeParams',productCtrl]);
 
 

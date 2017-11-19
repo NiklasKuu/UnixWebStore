@@ -24,7 +24,7 @@ var homeCtrl = function($scope,$resource,$location){
 	}
 };
 
-var productCtrl = function($scope,$resource,$location){
+var productListCtrl = function($scope,$resource,$location){
 	var AllProducts = $resource('/api/products');
 	AllProducts.query(function(allProducts){
 		$scope.products = allProducts;
@@ -57,6 +57,29 @@ var searchCtrl = function($scope, $resource,$routeParams,$location){
 		}
 	});
 
+	$scope.generateRecomendation = function(){
+		$scope.productSearchRecomendation = new Array();
+		AllProducts.query(function(fullProductlist){
+			for(var i = 0; i < fullProductlist.length;i++){	//checking each product and checking if user input is a sub string
+				if(fullProductlist[i].name.toLowerCase().indexOf($scope.productSearch.toLowerCase()) !== -1){
+					$scope.productSearchRecomendation.push(fullProductlist[i].name);
+				}
+			}
+		});
+	}
+
+	$scope.submit = function(){
+		$location.path('/search/'+$scope.productSearch);
+	}
+};
+
+var productCtrl = function($scope,$resource,$routeParams){
+	var Product = $resource('/api/products/' + $routeParams.id);
+	Product.query(function(product){
+		$scope.product = product[0];
+	});
+
+	var AllProducts = $resource('/api/products');
 	$scope.generateRecomendation = function(){
 		$scope.productSearchRecomendation = new Array();
 		AllProducts.query(function(fullProductlist){
