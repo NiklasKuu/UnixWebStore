@@ -1,0 +1,21 @@
+<div class="container">
+	<h1>Log in page</h1>
+	<!-- show error message if login is a failure -->
+	<div class="alert alert-danger" ng-show="failure">
+		{{message}}
+	</div>
+
+
+	<form ng-submit="logInUser()">
+		<div class="from-group">
+			<label>E-mail</label>
+			<input class="form-control" ng-model="user.email"></input>
+		</div>
+		<div class="from-group">
+			<label>Password</label>
+			<input type="password" class="form-control" ng-model="user.password"></input>
+		</div>
+		<button type="submit" class="btn btn-primary">Log In</button>
+		<a href="/#/register">Don't have an account? Register now!</a>
+	</form>
+</div>

@@ -19,6 +19,14 @@ app.config(['$routeProvider', function($routeProvider){
         	templateUrl: 'partials/product.html',
         	controller: 'ProductCtrl'
         })
+        .when('/login',{
+        	templateUrl: 'partials/loginPage.html',
+        	controller: 'LoginCtrl'
+        })
+        .when('/register',{
+        	templateUrl: 'partials/registerPage.html',
+        	controller: 'RegisterCtrl'
+       	})
         .otherwise({
             redirectTo: '/'
         });
@@ -30,9 +38,10 @@ app.service('authentication', ['$window','$http', authenticationService]);
 
 
 //controller definition
-app.controller('HomeCtrl', ['$scope','$resource','$location',homeCtrl]);
-app.controller('ProductListCtrl',['$scope','$resource','$location',productListCtrl]);
-app.controller('SearchCtrl',['$scope','$resource','$routeParams','$location',searchCtrl]);
-app.controller('ProductCtrl',['$scope','$resource','$routeParams',productCtrl]);
-
+app.controller('HomeCtrl', ['$scope','$resource','$location','authentication',homeCtrl]);
+app.controller('ProductListCtrl',['$scope','$resource','$location','authentication',productListCtrl]);
+app.controller('SearchCtrl',['$scope','$resource','$routeParams','$location','authentication',searchCtrl]);
+app.controller('ProductCtrl',['$scope','$resource','$routeParams','authentication',productCtrl]);
+app.controller('LoginCtrl',['$scope','$resource','$location','authentication',loginCtrl]);
+app.controller('RegisterCtrl',['$scope','$resource','$location','authentication',registerCtrl]);
 

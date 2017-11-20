@@ -16,7 +16,7 @@ var authenticationService = function($window,$http){
 		});
 	};
 	var logout = function(){
-		$window.localStorage.removeItem('nemo-token');
+		$window.localStorage.removeItem('webStore-token');
 	};
 	var isLoggedIn = function(){
 		var token = getToken();

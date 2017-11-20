@@ -9,9 +9,15 @@
       <li class="active"><a href="/#/products">Products</a></li>
     </ul>
 
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    <!-- Hide if user is logged in -->
+    <ul ng-hide="isLoggedIn" class="nav navbar-nav navbar-right">
+      <li><a href="/#/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="/#/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+    <!-- Show if user is logged in -->
+    <ul ng-show="isLoggedIn" class="nav navbar-nav navbar-right">
+      <li><a href="/#/register">{{'Hello ' + currentUser.name + '!'}}</a></li>
+      <li><a href="" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
     </ul>
     <form class="navbar-form navbar-right">
       <div class="form-group">
