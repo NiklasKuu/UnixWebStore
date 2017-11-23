@@ -158,7 +158,7 @@ module.exports.purchaseProduct = function(req,res){
 		} else if(!data){
 			respond(res,400,{"message":"could not find product matching id"});
 		} else {
-			if((req.body.amount * data.price) > req.body.payment){
+			if((req.body.amount * (data.price/100).toFixed(2)) > req.body.payment){
 				respond(res,400,{"message": "Payment was not large enough."})
 			} else if((data.stock - req.body.amount ) < 0){
 				respond(res,400,{"message": "Product does not have enough stock for purchase"});
@@ -171,13 +171,16 @@ module.exports.purchaseProduct = function(req,res){
 					} else {
 						foundUser.purchases.push({
 							product: req.params.id,
-							amount: req.body.amount
+							amount: req.body.amount,
+							name: data.name,
+							price: (data.price/100).toFixed(2)
 						});
 						foundUser.save(function(err){
 							if(err){
 								respond(res,400,err);
 							} else {
 								data.bought += req.body.amount;
+								data.stock -= req.body.amount;
 								data.save(function(err){
 									if(err){
 										respond(res,400,err);
@@ -208,7 +211,7 @@ module.exports.findNewest = function(req,res){
 }
 
 module.exports.findPopular = function(req,res){
-	productModel.find({}).sort('bought').exec(function(err,data){
+	productModel.find({}).sort('-bought').exec(function(err,data){
 		if(err){
 			respond(res,400,err);
 		} else {

@@ -27,8 +27,21 @@ module.exports.listAllUsers = function(req,res){
 	} else {
 		notAuthorized(res,req.payload.accountType,1);
 	}
+}
 
-	
+module.exports.getUser = function(req,res){
+	if(req.payload.accountType === 1 || req.payload._id === req.params.id){
+		userModel.findOne({_id:req.params.id},function(err,data){
+			if(err){
+				respond(res,400,err);
+			} else {
+				respond(res,200,data);
+			}
+		});
+	} else {
+		notAuthorized(res,req.payload.accountType,1);
+	}
+
 }
 
 module.exports.createNewUser = function(req,res){

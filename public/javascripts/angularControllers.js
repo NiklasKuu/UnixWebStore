@@ -97,7 +97,7 @@ var searchCtrl = function($scope, $resource,$routeParams,$location,authenticatio
 	}
 };
 
-var productCtrl = function($scope,$resource,$routeParams,authentication){
+var productCtrl = function($scope,$resource,$routeParams,$http,authentication){
 	$scope.isLoggedIn = authentication.isLoggedIn();
 	$scope.currentUser = authentication.currentUser();
 	$scope.logout = function(){
@@ -122,9 +122,25 @@ var productCtrl = function($scope,$resource,$routeParams,authentication){
 		});
 	}
 
+	$scope.purchase = function(){
+		$http.post('/api/products/' + $scope.product._id + '/purchase',{
+			'amount': $scope.amount,
+			'payment': $scope.payment
+		},{
+			headers:{Authorization: "Bearer " + authentication.getToken()}
+		}).then(function(data){
+			$scope.purchaseSuccess = true;
+			$scope.purchaseMessage = data.data.message;
+		},function(err){
+			$scope.purchaseFail = true;
+			$scope.purchaseMessage = err.data.message;
+		});
+
+	};
+
 	$scope.submit = function(){
 		$location.path('/search/'+$scope.productSearch);
-	}
+	};
 };
 
 var loginCtrl = function($scope,$resource,$location,authentication){
@@ -147,4 +163,57 @@ var registerCtrl = function($scope,$resource,$location,authentication){
 			$scope.message = err.data.message;
 		});
 	}
+};
+
+var profileCtrl = function($scope,$resource,$routeParams,authentication){
+	$scope.isLoggedIn = authentication.isLoggedIn();
+	$scope.currentUser = authentication.currentUser();
+	$scope.logout = function(){
+        authentication.logout();
+        location.reload();
+    }
+
+	$scope.generateRecomendation = function(){
+		$scope.productSearchRecomendation = new Array();
+		AllProducts.query(function(fullProductlist){
+			for(var i = 0; i < fullProductlist.length;i++){	//checking each product and checking if user input is a sub string
+				if(fullProductlist[i].name.toLowerCase().indexOf($scope.productSearch.toLowerCase()) !== -1){
+					$scope.productSearchRecomendation.push(fullProductlist[i].name);
+				}
+			}
+		});
+	}
+
+	$scope.submit = function(){
+		$location.path('/search/'+$scope.productSearch);
+	}
+
+	$scope.showCorrectAccountType = function(accountType){
+		if(accountType === 1){
+			return "Administrator";
+		} else if(accountType === 2){
+			return "Employee";
+		} else {
+			return "Customer";
+		}
+	}
+
+	$scope.productName = function(productId){
+		var Product = $resource('/api/products/' + productId);
+		Product.query(function(product){
+		return product.name;
+	});
+	}
+
+	var User = $resource('/api/users/' + authentication.currentUser().id,{},{
+		query: {
+			method: 'GET',
+			headers: {Authorization: "Bearer " + authentication.getToken()}
+		}
+	});
+	User.query(function(user){
+		$scope.user = user;
+	});
+
+
 };

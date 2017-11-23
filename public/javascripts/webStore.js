@@ -27,6 +27,10 @@ app.config(['$routeProvider', function($routeProvider){
         	templateUrl: 'partials/registerPage.html',
         	controller: 'RegisterCtrl'
        	})
+       	.when('/profile/:id',{
+       		templateUrl: 'partials/profilePage.html',
+       		controller: 'ProfileCtrl'
+       	})
         .otherwise({
             redirectTo: '/'
         });
@@ -41,7 +45,8 @@ app.service('authentication', ['$window','$http', authenticationService]);
 app.controller('HomeCtrl', ['$scope','$resource','$location','authentication',homeCtrl]);
 app.controller('ProductListCtrl',['$scope','$resource','$location','authentication',productListCtrl]);
 app.controller('SearchCtrl',['$scope','$resource','$routeParams','$location','authentication',searchCtrl]);
-app.controller('ProductCtrl',['$scope','$resource','$routeParams','authentication',productCtrl]);
+app.controller('ProductCtrl',['$scope','$resource','$routeParams','$http','authentication',productCtrl]);
 app.controller('LoginCtrl',['$scope','$resource','$location','authentication',loginCtrl]);
 app.controller('RegisterCtrl',['$scope','$resource','$location','authentication',registerCtrl]);
+app.controller('ProfileCtrl',['$scope','$resource','$routeParams','authentication',profileCtrl]);
 

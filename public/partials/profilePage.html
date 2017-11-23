@@ -6,14 +6,9 @@
     </div>
     <ul class="nav navbar-nav">
       <li><a href="/#/">Home</a></li>
-      <li class="active"><a href="/#/products">Products</a></li>
+      <li><a href="/#/products">Products</a></li>
     </ul>
 
-    <!-- Hide if user is logged in -->
-    <ul ng-hide="isLoggedIn" class="nav navbar-nav navbar-right">
-      <li><a href="/#/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="/#/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
     <!-- Show if user is logged in -->
     <ul ng-show="isLoggedIn" class="nav navbar-nav navbar-right">
       <li><a href="{{'/#/profile/' + currentUser.id}}">{{'Hello ' + currentUser.name + '!'}}</a></li>
@@ -30,17 +25,23 @@
     </form>
   </div>
 </nav>
+
 <div class="container">
-
   <div class="page-header">
-    <h1>All Products</h1>
+    <h1>Profile of {{user.name}}</h1>
   </div>
-
-  <div ng-repeat="product in products" class="col-md-3 col-xs-12 home-product-container top-buffer">
-    <img class="home-product-image" src="images/Placeholder.jpg"/>
-    <p><b>{{product.name}}</b></p>
-    <p><b>{{product.price}}$</b></p>
-    <a href="{{'/#/product/' + product._id}}" class="btn btn-success home-product-button" role="button">View Details</a>  
+  <div class="col-md-6">
+    <h3>E-mail: {{user.email}}</h3>  
   </div>
-
+  <div class="col-md-6">
+    <h3>Account Type: {{showCorrectAccountType(user.accountType)}}</h3>
+  </div>
+  <div class="page-header past-purchases-header">
+    <h2>Past Purchases</h2>
+  </div>
+  <div class="user-purchases col-md-12">
+    <ul class="list-group">
+      <a ng-repeat="product in user.purchases" href="/#/product/{{product.product}}" class="list-group-item"><strong>Purchase ID: </strong> {{product._id}} <strong>Name: </strong> {{product.name}} <strong>Amount: </strong>{{product.amount}} <strong>Cost: </strong>{{product.price * product.amount}}€</a>
+    </ul>  
+  </div>
 </div>

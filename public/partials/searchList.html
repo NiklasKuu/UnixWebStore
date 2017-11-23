@@ -17,7 +17,7 @@
     </ul>
     <!-- Show if user is logged in -->
     <ul ng-show="isLoggedIn" class="nav navbar-nav navbar-right">
-      <li><a href="/#/register">{{'Hello ' + currentUser.name + '!'}}</a></li>
+      <li><a href="{{'/#/profile/' + currentUser.id}}">{{'Hello ' + currentUser.name + '!'}}</a></li>
       <li><a href="" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
     </ul>
     <form class="navbar-form navbar-right">
