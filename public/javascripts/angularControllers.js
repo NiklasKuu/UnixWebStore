@@ -130,8 +130,10 @@ var productCtrl = function($scope,$resource,$routeParams,$http,authentication){
 			headers:{Authorization: "Bearer " + authentication.getToken()}
 		}).then(function(data){
 			$scope.purchaseSuccess = true;
+			$scope.purchaseFail = false;
 			$scope.purchaseMessage = data.data.message;
 		},function(err){
+			$scope.purchaseSuccess = false;
 			$scope.purchaseFail = true;
 			$scope.purchaseMessage = err.data.message;
 		});

@@ -185,7 +185,9 @@ module.exports.purchaseProduct = function(req,res){
 									if(err){
 										respond(res,400,err);
 									} else {
-										respond(res,200,{"message":"Product bought successfully"});
+										var change = (req.body.payment - (req.body.amount * (data.price/100).toFixed(2)));
+										var buyMessage = 'Product bought successfully with ' + change + '€ as change.';
+										respond(res,200,{"message": buyMessage});
 									}
 								});
 							}
