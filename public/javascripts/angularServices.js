@@ -35,6 +35,7 @@ var authenticationService = function($window,$http){
 			return{
                 email: payload.email,
                 name: payload.name,
+                accountType: payload.accountType,
                 id: payload._id
 			};
 		}

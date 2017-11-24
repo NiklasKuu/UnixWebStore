@@ -105,10 +105,14 @@ var productCtrl = function($scope,$resource,$routeParams,$http,authentication){
         location.reload();
     }
 
-	var Product = $resource('/api/products/' + $routeParams.id);
-	Product.query(function(product){
-		$scope.product = product[0];
-	});
+    $scope.renderProduct = function(){
+    	var Product = $resource('/api/products/' + $routeParams.id);
+		Product.query(function(product){
+			$scope.product = product[0];
+		});	
+    }
+    $scope.renderProduct();
+
 
 	var AllProducts = $resource('/api/products');
 	$scope.generateRecomendation = function(){
@@ -122,6 +126,40 @@ var productCtrl = function($scope,$resource,$routeParams,$http,authentication){
 		});
 	}
 
+	$scope.editProduct = function(){
+		$http.put('api/products/' + $scope.product._id,$scope.product,{
+			headers:{ Authorization: "Bearer " + authentication.getToken()}
+		}).then(function(data){
+			$scope.purchaseSuccess = true;
+			$scope.purchaseFail = false;
+			$scope.purchaseMessage = data.data.message;
+			$scope.renderProduct();
+		},function(err){
+			$scope.purchaseSuccess = false;
+			$scope.purchaseFail = true;
+			$scope.purchaseMessage = err.data.message;
+			$scope.renderProduct();
+		});
+	}
+	
+	$scope.changeStock = function(){
+		$http.put('api/products/' + $scope.product._id + '/stock',{
+			'stock': $scope.newStock
+		},{
+			headers:{ Authorization: "Bearer " + authentication.getToken()}
+		}).then(function(data){
+			$scope.purchaseSuccess = true;
+			$scope.purchaseFail = false;
+			$scope.purchaseMessage = data.data.message;
+			$scope.renderProduct();
+		},function(err){
+			$scope.purchaseSuccess = false;
+			$scope.purchaseFail = true;
+			$scope.purchaseMessage = err.data.message;
+			$scope.renderProduct();
+		});
+	}
+
 	$scope.purchase = function(){
 		$http.post('/api/products/' + $scope.product._id + '/purchase',{
 			'amount': $scope.amount,
@@ -132,10 +170,12 @@ var productCtrl = function($scope,$resource,$routeParams,$http,authentication){
 			$scope.purchaseSuccess = true;
 			$scope.purchaseFail = false;
 			$scope.purchaseMessage = data.data.message;
+			$scope.renderProduct();
 		},function(err){
 			$scope.purchaseSuccess = false;
 			$scope.purchaseFail = true;
 			$scope.purchaseMessage = err.data.message;
+			$scope.renderProduct();
 		});
 
 	};

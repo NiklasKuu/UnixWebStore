@@ -46,9 +46,75 @@
     <img class="home-product-image" src="images/Placeholder.jpg"/>
   </div>
   <div class="col-md-6 col-xs-12">
-    <button ng-show="isLoggedIn" type="button" class="btn btn-primary product-purchase-button" data-toggle="modal" data-target="#purchaseModal"><span class="glyphicon glyphicon-shopping-cart"></span> Purchase</button>
+    <button ng-show="{{isLoggedIn && currentUser.accountType === 3}}" type="button" class="btn btn-primary product-purchase-button" data-toggle="modal" data-target="#purchaseModal"><span class="glyphicon glyphicon-shopping-cart"></span> Purchase</button>
+    <button ng-show="{{isLoggedIn && currentUser.accountType === 2}}" type="button" class="btn btn-primary product-edit-stock" data-toggle="modal" data-target="#stockEditModal"> Edit Stock</button>
+    <button ng-show="{{isLoggedIn && currentUser.accountType === 1}}" type="button" class="btn btn-primary product-edit" data-toggle="modal" data-target="#editModal"> Edit Product Details</button>
 
-    <!-- Modal -->
+    <!-- Edit Product Modal -->
+    <div id="editModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        
+        <!-- Modal-content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Edit <strong>{{product.name}}</strong></h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="editName">Name:</label>
+              <input type="text" class="form-control" id="editName"ng-model="product.name">
+            </div>
+            <div class="form-group">
+              <label for="editPrice">Price:</label>
+              <input type="number" class="form-control" id="editPrice"  ng-model="product.price">
+            </div>
+            <div class="form-group">
+              <label for="editStock">Stock:</label>
+              <input type="number" class="form-control" id="editStock" ng-model="product.stock">
+            </div>
+            <div class="form-group">
+              <label for="editBought">Bought:</label>
+              <input type="number" class="form-control" id="editBought" ng-model="product.bought">
+            </div>
+            <div class="form-group">
+              <label for="editDescription">Description:</label>
+              <textarea class="form-control" rows="5" id="editDescription" ng-model="product.description"></textarea>
+            </div> 
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editProduct()">Save</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="renderProduct()">Cancel</button>
+          </div>  
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Stock Modal -->
+    <div id="stockEditModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal-content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Edit <strong>{{product.name}}</strong> Stock</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="newStock">stock</label>
+              <input type="number" class="form-control" id="newStock" value={{product.stock}} ng-model="newStock">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="changeStock()">Save</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>  
+        </div>
+      </div>
+    </div>
+
+    <!-- Purchase Units Modal -->
     <div id="purchaseModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
         
@@ -77,7 +143,8 @@
     </div>
 
     <p><b>price: {{product.price}}€</b></p>
-    <p><b>stock: {{product.stock}} units</b></p>
+    <p><b>stock: {{product.stock}} {{product.stock == 1 ? "unit" : "units"}}</b></p>
+    <p ng-show="{{currentUser.accountType < 3}}"><b>bought: {{product.bought}} {{product.bought == 1 ? "unit" : "units"}}</b></p>
     <h3>Description</h3>
     <p>{{product.description}}</p>
   </div>

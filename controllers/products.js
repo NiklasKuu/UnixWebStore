@@ -79,15 +79,29 @@ module.exports.getProduct = function(req,res){
 
 module.exports.editProduct = function(req,res){
 	if(req.payload.accountType === 1){
-		if(!req.params.id || !req.body.name || !req.body.description || !req.body.price || !req.body.stock){
+		if(!req.params.id || !req.body.name || !req.body.description || !req.body.price || (!req.body.stock && req.body.stock != 0) || (!req.body.bought && req.body.bought != 0)){
 			respond(res,400, {"message": "Not all required parameters were entered"});
 			return;
 		}
+		//send error if request stock is under 0
+		if(req.body.stock < 0){
+			respond(res,400,{"message": "Incorrect Stock value entered."});
+			return;
+		}
+		//send error if price is 0 or under 0
+		if(req.body.price <= 0){
+			respond(res,400,{"message": "Incorrect Price entered."});
+			return;
+		}
+
+
 		productModel.findOne({_id:req.params.id},function(err,data){
 			data.name = req.body.name;
 			data.description = req.body.description;
 			data.setPrice(req.body.price);
 			data.stock = req.body.stock;
+			data.bought = req.body.bought;
+			data.timeStamp = Date.now();
 
 			data.save(function(err){
 				if(err){
@@ -107,8 +121,13 @@ module.exports.editProductStock = function(req,res){
 	if(req.payload.accountType < 3){
 
 		//send error if request lacks id parameter
-		if(!req.params.id || !req.body.stock){
-			respond(res,400,{"message": "Not all required parameters were entered"});
+		if(!req.params.id || (!req.body.stock && req.body.stock !== 0)){
+			respond(res,400,{"message": "Not all required parameters were entered."});
+			return;
+		}
+		//send error if request stock is under 0
+		if(req.body.stock < 0){
+			respond(res,400,{"message": "Incorrect Stock value entered."});
 			return;
 		}
 
