@@ -33,7 +33,7 @@ var homeCtrl = function($scope,$resource,$location,authentication){
 	}
 };
 
-var productListCtrl = function($scope,$resource,$location,authentication){
+var productListCtrl = function($scope,$resource,$location,$http,authentication){
 	$scope.isLoggedIn = authentication.isLoggedIn();
 	$scope.currentUser = authentication.currentUser();
 
@@ -42,10 +42,30 @@ var productListCtrl = function($scope,$resource,$location,authentication){
         location.reload();
     }
 
-	var AllProducts = $resource('/api/products');
-	AllProducts.query(function(allProducts){
-		$scope.products = allProducts;
-	});
+
+    $scope.renderProducts = function(){
+    	var AllProducts = $resource('/api/products');
+		AllProducts.query(function(allProducts){
+			$scope.products = allProducts;
+		});	
+    }
+	$scope.renderProducts();
+
+	$scope.createProduct = function(){
+		console.log('creating');
+		$http.post('api/products/',$scope.product,{
+			headers:{ Authorization: "Bearer " + authentication.getToken()}
+		}).then(function(data){
+			$scope.creationSuccess = true;
+			$scope.creationFail = false;
+			$scope.creationMessage = data.data.message;
+			$scope.renderProducts();
+		},function(err){
+			$scope.creationSuccess = false;
+			$scope.creationFail = true;
+			$scope.creationMessage = err.data.message;
+		});
+	}
 
 	$scope.generateRecomendation = function(){
 		$scope.productSearchRecomendation = new Array();
@@ -97,7 +117,7 @@ var searchCtrl = function($scope, $resource,$routeParams,$location,authenticatio
 	}
 };
 
-var productCtrl = function($scope,$resource,$routeParams,$http,authentication){
+var productCtrl = function($scope,$resource,$routeParams,$http,$location,authentication){
 	$scope.isLoggedIn = authentication.isLoggedIn();
 	$scope.currentUser = authentication.currentUser();
 	$scope.logout = function(){
@@ -179,6 +199,20 @@ var productCtrl = function($scope,$resource,$routeParams,$http,authentication){
 		});
 
 	};
+
+	$scope.deleteProduct = function(){
+		$http.delete('/api/products/' + $scope.product._id,{
+			headers:{Authorization: "Bearer " + authentication.getToken()}
+		}).then(function(data){
+			$location.path('/');
+			location.reload();		// have to reload the page to get rid of modal
+		},function(err){
+			$scope.purchaseSuccess = false;
+			$scope.purchaseFail = true;
+			$scope.purchaseMessage = err.data.message;
+			$scope.renderProduct();
+		});
+	}
 
 	$scope.submit = function(){
 		$location.path('/search/'+$scope.productSearch);

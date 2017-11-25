@@ -32,14 +32,62 @@
 </nav>
 <div class="container">
 
-  <div class="page-header">
+
+    <div class="alert alert-danger" ng-show="creationFail">
+      {{creationMessage}}
+    </div>
+    <div class="alert alert-success" ng-show="creationSuccess">
+      {{creationMessage}}
+    </div>
+
+  <button ng-show="{{isLoggedIn && currentUser.accountType === 1}}" class="btn btn-primary col-xs-offset-2 col-xs-8" data-toggle="modal" data-target="#createModal">Create New Product</button>
+  <div class="col-xs-2"></div>
+
+
+  
+  <!-- Create Product Modal -->
+    <div id="createModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal-content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Edit <strong>{{product.name}}</strong></h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="editName">Name:</label>
+              <input type="text" class="form-control" id="editName" ng-model="product.name">
+            </div>
+            <div class="form-group">
+              <label for="editPrice">Price:</label>
+              <input type="number" class="form-control" id="editPrice" step="any"  ng-model="product.price">
+            </div>
+            <div class="form-group">
+              <label for="editStock">Stock:</label>
+              <input type="number" class="form-control" id="editStock" ng-model="product.stock">
+            </div>
+            <div class="form-group">
+              <label for="editDescription">Description:</label>
+              <textarea class="form-control" rows="5" id="editDescription" ng-model="product.description"></textarea>
+            </div> 
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="createProduct()">Save</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>  
+        </div>
+      </div>
+    </div>
+  <div class="page-header row">
     <h1>All Products</h1>
   </div>
 
   <div ng-repeat="product in products" class="col-md-3 col-xs-12 home-product-container top-buffer">
     <img class="home-product-image" src="images/Placeholder.jpg"/>
     <p><b>{{product.name}}</b></p>
-    <p><b>{{product.price}}$</b></p>
+    <p><b>{{product.price}}€</b></p>
     <a href="{{'/#/product/' + product._id}}" class="btn btn-success home-product-button" role="button">View Details</a>  
   </div>
 

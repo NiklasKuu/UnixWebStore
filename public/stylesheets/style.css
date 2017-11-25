@@ -45,6 +45,10 @@
 	width: 60%;
 }
 
+.delete-modal-header{
+	background-color: #d9534f;
+	color: white;
+}
 
 
 /* User page */
