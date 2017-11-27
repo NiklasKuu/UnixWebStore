@@ -31,6 +31,10 @@ app.config(['$routeProvider', function($routeProvider){
        		templateUrl: 'partials/profilePage.html',
        		controller: 'ProfileCtrl'
        	})
+       	.when('/users',{
+       		templateUrl: 'partials/usersListPage.html',
+       		controller: 'UsersListCtrl'
+       	})
         .otherwise({
             redirectTo: '/'
         });
@@ -49,4 +53,4 @@ app.controller('ProductCtrl',['$scope','$resource','$routeParams','$http','$loca
 app.controller('LoginCtrl',['$scope','$resource','$location','authentication',loginCtrl]);
 app.controller('RegisterCtrl',['$scope','$resource','$location','authentication',registerCtrl]);
 app.controller('ProfileCtrl',['$scope','$resource','$routeParams','authentication',profileCtrl]);
-
+app.controller('UsersListCtrl',['$scope','$resource','authentication',usersListCtrl]);

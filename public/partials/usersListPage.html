@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
@@ -8,7 +7,7 @@
     <ul class="nav navbar-nav">
       <li><a href="/#/">Home</a></li>
       <li><a href="/#/products">Products</a></li>
-      <li ng-show="{{isLoggedIn && currentUser.accountType === 1}}"><a href="/#/users">Users</a></li>
+      <li ng-show="{{isLoggedIn && currentUser.accountType === 1}}" class="active"><a href="/#/users">Users</a></li>
     </ul>
 
     <!-- Hide if user is logged in -->
@@ -34,16 +33,10 @@
 </nav>
 
 <div class="container">
-
   <div class="page-header">
-    <h1>Search results</h1>
+    <h1>List of all users profiles</h1>
   </div>
-
-  <div ng-repeat="product in searchResults" class="col-md-3 col-xs-12 home-product-container top-buffer">
-    <img class="home-product-image" src="images/Placeholder.jpg"/>
-    <p><b>{{product.name}}</b></p>
-    <p><b>{{product.price}}$</b></p>
-    <a href="{{'/#/product/' + product._id}}" class="btn btn-success home-product-button" role="button">View Details</a>  
-  </div>
-
+  <ul class="list-group">
+    <a ng-repeat="user in users" href="{{'/#/profile/' + user._id}}" class="list-group-item">ID: {{user._id}} Name: {{user.name}} E-mail: {{user.email}} Account Type: {{showCorrectAccountType(user.accountType)}}</a>  
+  </ul>
 </div>

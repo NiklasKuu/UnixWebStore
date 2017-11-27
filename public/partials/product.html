@@ -7,6 +7,7 @@
     <ul class="nav navbar-nav">
       <li><a href="/#/">Home</a></li>
       <li><a href="/#/products">Products</a></li>
+      <li ng-show="{{isLoggedIn && currentUser.accountType === 1}}"><a href="/#/users">Users</a></li>
     </ul>
 
     <!-- Hide if user is logged in -->
