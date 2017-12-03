@@ -36,6 +36,7 @@ var authenticationService = function($window,$http){
                 email: payload.email,
                 name: payload.name,
                 accountType: payload.accountType,
+                cartCount: payload.cartCount,
                 id: payload._id
 			};
 		}

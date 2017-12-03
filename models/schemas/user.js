@@ -5,9 +5,16 @@ const jsonWebToken = require('jsonwebtoken');
 const purchaseSchema = new mongoose.Schema({
 	product: { type: mongoose.Schema.Types.ObjectId, required: true},
 	name: {type: String, required: true},
-	price: {type: Number, required:true},
+	price: {type: Number, required: true},
 	amount: {type: Number, required: true},
 	timeStamp: {type: Date, "default": Date.now}
+});
+
+const CartProduct = new mongoose.Schema({
+	product: { type: mongoose.Schema.Types.ObjectId, required: true},
+	name: {type: String, required: true},
+	price: {type: Number, required: true},
+	amount: {type: Number, required: true},
 });
 
 
@@ -17,6 +24,7 @@ const userSchema = new mongoose.Schema({
 	hash: String,
 	salt: String,
 	accountType: { type: Number, required: true, min: 1, max: 3},
+	cart: [CartProduct],
 	purchases: [purchaseSchema]
 });
 
@@ -43,6 +51,7 @@ userSchema.methods.generateJwt = function(){
 		email: this.email,
 		name: this.name,
 		accountType: this.accountType,
+		cartCount: this.cart.length,
 		exp: parseInt(expiry.getTime() / 1000),  
 	}, process.env.JWT_SECRET); // CHANGE THIS BEFORE RETURNING TO TEACHER, ADD TO ENV VARIABLE. INSTRUCTIONS CAN BE FOUND IN THE GETTING MEAN BOOK
 };

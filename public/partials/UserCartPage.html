@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="/#/">Home</a></li>
-        <li class="active"><a href="/#/products">Products</a></li>
+        <li><a href="/#/products">Products</a></li>
         <li ng-show="{{isLoggedIn && currentUser.accountType === 1}}"><a href="/#/users">Users</a></li>
       </ul>
       <!-- Hide if user is logged in -->
@@ -23,7 +23,7 @@
       <!-- Show if user is logged in -->
       <ul ng-show="isLoggedIn" class="nav navbar-nav navbar-right">
         <li><a href="{{'/#/profile/' + currentUser.id}}">{{'Hello ' + currentUser.name + '!'}}</a></li>
-        <li><a href="{{'/#/profile/' + currentUser.id + '/cart'}}"><span class="glyphicon glyphicon-shopping-cart"></span> My Cart <span  class="label label-danger">{{cartCount}}</span></a></li>
+        <li class="active"><a href="{{'/#/profile/' + currentUser.id + '/cart'}}"><span class="glyphicon glyphicon-shopping-cart"></span> My Cart <span  class="label label-danger">{{cartCount}}</span></a></li>
         <li><a href="" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
       </ul>
 
@@ -40,64 +40,63 @@
   </div>
 </nav>
 <div class="container">
-
-
-    <div class="alert alert-danger" ng-show="creationFail">
-      {{creationMessage}}
+  <div class="page-header">
+    <h1>Shopping Cart</h1>  
+  </div>
+  <div ng-show="cartHasItems" class="user-cart col-xs-12 col-md-12 row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Unit Price</th>
+          <th>Amount</th>
+          <th>Total Price</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="product in cart">
+          <td>{{product.name}}</td>
+          <td>{{product.price}}€ per unit</td>
+          <td>{{product.amount}}</td>
+          <td>{{product.amount * product.price}}€</td>
+          <td><div class=""><a href="/#/product/{{product.product}}" class="btn btn-success">Product Page</a> <button ng-click="removeItem(product.product)" class="btn btn-danger remove-item">Remove Item</button></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <button ng-show="cartHasItems" class="btn btn-primary" data-toggle="modal" data-target="#purchaseModal">Purchase Products in Cart</button>
+  </div>
+  <div class="row cart-messages">
+    <div class="alert alert-danger" ng-show="purchaseFail">
+      {{purchaseMessage}}
     </div>
-    <div class="alert alert-success" ng-show="creationSuccess">
-      {{creationMessage}}
+    <div class="alert alert-success" ng-show="purchaseSuccess">
+      {{purchaseMessage}}
     </div>
-
-  <button ng-show="{{isLoggedIn && currentUser.accountType === 1}}" class="btn btn-primary col-xs-offset-2 col-xs-8" data-toggle="modal" data-target="#createModal">Create New Product</button>
-  <div class="col-xs-2"></div>
-
-
-  
-  <!-- Create Product Modal -->
-    <div id="createModal" class="modal fade" role="dialog">
+  </div>
+    <!-- Purchase Units Modal -->
+    <div id="purchaseModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
-
+        
         <!-- Modal-content -->
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Edit <strong>{{product.name}}</strong></h4>
+            <h4 class="modal-title">Total Price: {{totalPrice}}€</h4>
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label for="editName">Name:</label>
-              <input type="text" class="form-control" id="editName" ng-model="product.name">
+              <label for="money">Enter Payment</label>
+              <input type="number" class="form-control" id="money" ng-model="money" step="0.01" min="0">
             </div>
-            <div class="form-group">
-              <label for="editPrice">Price:</label>
-              <input type="number" class="form-control" id="editPrice" step="any"  ng-model="product.price">
-            </div>
-            <div class="form-group">
-              <label for="editStock">Stock:</label>
-              <input type="number" class="form-control" id="editStock" ng-model="product.stock">
-            </div>
-            <div class="form-group">
-              <label for="editDescription">Description:</label>
-              <textarea class="form-control" rows="5" id="editDescription" ng-model="product.description"></textarea>
-            </div> 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="createProduct()">Save</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="purchase()">Purchase</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           </div>  
         </div>
       </div>
     </div>
-  <div class="page-header">
-    <h1>All Products</h1>
-  </div>
-
-  <div ng-repeat="product in products" class="col-md-3 col-xs-12 home-product-container top-buffer">
-    <img class="home-product-image" src="images/Placeholder.jpg"/>
-    <p><b>{{product.name}}</b></p>
-    <p><b>{{product.price}}€</b></p>
-    <a href="{{'/#/product/' + product._id}}" class="btn btn-success home-product-button" role="button">View Details</a>  
-  </div>
-
 </div>

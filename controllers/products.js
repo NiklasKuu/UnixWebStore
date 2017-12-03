@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const productModel = mongoose.model('ProductModel')
+const productModel = mongoose.model('ProductModel');
 const userModel = mongoose.model('UserModel');
 
 const respond = function(res,status,content){
@@ -168,6 +168,58 @@ module.exports.deleteProduct = function(req,res){
 	} else {
 		notAuthorized(res,req.payload.accountType,1);	
 	}
+}
+
+module.exports.addToCart = function(req,res){
+	if(!req.body.amount || req.body.amount <= 0){
+		respond(res,400,{"message":"Incorrect product amount."});
+		return;
+	}
+	productModel.findOne({_id:req.params.id},function(err,data){
+
+		if(err){
+			respond(res,400,err);
+		} else if(!data){
+			respond(res,400,{"message":"could not find product matching id"});
+		} else if(data.stock < req.body.amount){
+			respond(res,400,{"message":"Not enough stock for purchase."});
+		} else {
+			userModel.findOne({_id:req.payload._id},function(err,user){
+				if(err){
+					respond(res,400,err);
+					return;
+				}
+
+
+				//checking if id is already in cart. If it is we add to its amount, otherwise we add a new product
+				let found = false;
+				for(let i = 0; i < user.cart.length;i++){
+					console.log(user.cart[i].product + ":" + req.params.id)
+					if(user.cart[i].product  == req.params.id){
+						found = true;
+						user.cart[i].amount += req.body.amount;
+					}
+				}
+				console.log(found);
+				if(!found) {			// adding a new element into cart
+					user.cart.push({
+						product: req.params.id,
+						amount: req.body.amount,
+						name: data.name,
+						price: (data.price/100).toFixed(2)
+					});
+				}
+				user.save(function(err){
+					if(err){
+						respond(res,400,err);
+					} else {
+						respond(res,200,{"message": "Added to Cart"});
+					}
+				});
+							
+			});
+		}
+	});
 }
 
 module.exports.purchaseProduct = function(req,res){
