@@ -53,7 +53,7 @@ userSchema.methods.generateJwt = function(){
 		accountType: this.accountType,
 		cartCount: this.cart.length,
 		exp: parseInt(expiry.getTime() / 1000),  
-	}, process.env.JWT_SECRET); // CHANGE THIS BEFORE RETURNING TO TEACHER, ADD TO ENV VARIABLE. INSTRUCTIONS CAN BE FOUND IN THE GETTING MEAN BOOK
+	}, process.env.JWT_SECRET); 
 };
 
 mongoose.model('UserModel',userSchema);

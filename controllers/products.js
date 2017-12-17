@@ -46,6 +46,9 @@ module.exports.createNewProduct = function(req,res){
 		newProduct.description = req.body.description;
 		newProduct.setPrice(req.body.price);
 
+		if(req.body.image){
+			newProduct.image = req.body.image;
+		}
 
 		if(req.body.stock){
 			newProduct.stock = req.body.stock;	
@@ -102,6 +105,10 @@ module.exports.editProduct = function(req,res){
 			data.stock = req.body.stock;
 			data.bought = req.body.bought;
 			data.timeStamp = Date.now();
+
+			if(req.body.image){
+				data.image = req.body.image;
+			}
 
 			data.save(function(err){
 				if(err){
@@ -194,13 +201,11 @@ module.exports.addToCart = function(req,res){
 				//checking if id is already in cart. If it is we add to its amount, otherwise we add a new product
 				let found = false;
 				for(let i = 0; i < user.cart.length;i++){
-					console.log(user.cart[i].product + ":" + req.params.id)
 					if(user.cart[i].product  == req.params.id){
 						found = true;
 						user.cart[i].amount += req.body.amount;
 					}
 				}
-				console.log(found);
 				if(!found) {			// adding a new element into cart
 					user.cart.push({
 						product: req.params.id,
@@ -221,7 +226,7 @@ module.exports.addToCart = function(req,res){
 		}
 	});
 }
-
+/*
 module.exports.purchaseProduct = function(req,res){
 	productModel.findOne({_id:req.params.id},function(err,data){
 		if(err){
@@ -268,7 +273,7 @@ module.exports.purchaseProduct = function(req,res){
 			}
 		}
 	});
-}
+}*/
 
 module.exports.findNewest = function(req,res){
 	productModel.find({}).sort('-timeStamp').exec(function(err,data){

@@ -52,7 +52,8 @@
   </div>
 
   <div class="col-md-6 col-xs-12">
-    <img class="home-product-image" src="images/Placeholder.jpg"/>
+    <img ng-hide="product.image" class="home-product-image" src="images/Placeholder.jpg"/>
+    <img ng-show="product.image" class="home-product-image" src="{{product.image}}"/>
   </div>
   <div class="col-xs-12 col-md-6 ">
     <button ng-show="{{isLoggedIn && currentUser.accountType === 3}}" type="button" class="btn btn-primary product-purchase-button" data-toggle="modal" data-target="#purchaseModal"><span class="glyphicon glyphicon-shopping-cart"></span> Add To Cart</button>
@@ -97,6 +98,10 @@
             <div class="form-group">
               <label for="editName">Name:</label>
               <input type="text" class="form-control" id="editName" ng-model="product.name">
+            </div>
+            <div class="form-group">
+              <label for="editUrl">Image Url:</label>
+              <input type="text" class="form-control" id="editUrl" ng-model="product.image">
             </div>
             <div class="form-group">
               <label for="editPrice">Price:</label>

@@ -46,7 +46,8 @@
   </div>
 
   <div ng-repeat="product in searchResults" class="col-md-3 col-xs-12 home-product-container top-buffer">
-    <img class="home-product-image" src="images/Placeholder.jpg"/>
+    <img ng-hide="product.image" class="home-product-image" src="images/Placeholder.jpg"/>
+    <img ng-show="product.image" class="home-product-image" src="{{product.image}}"/>
     <p><b>{{product.name}}</b></p>
     <p><b>{{product.price}}$</b></p>
     <a href="{{'/#/product/' + product._id}}" class="btn btn-success home-product-button" role="button">View Details</a>  
