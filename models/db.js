@@ -1,6 +1,6 @@
 const mongoose = require( 'mongoose' );
 
-const dbUrl = "mongodb://localhost/webStore"
+const dbUrl = "mongodb://"+ process.env.MONGODB_USERNAME + ":" + process.env.MONGODB_PASSWORD +"@localhost/webStore"
 
 // doing this to plug in the global promise library to stop mongoose form console logging a depreciation warning.
 //Not entirely sure what this does

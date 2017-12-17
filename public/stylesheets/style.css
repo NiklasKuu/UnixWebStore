@@ -24,15 +24,17 @@
 	margin-right: auto;
 	width:80%;
 }
-.home-product-container > p{
+.home-product-container p{
 	text-align: center;
 }
 
 .home-product-image{	
 	display: block;
+	margin-top: 20px;
 	margin-left: auto;
 	margin-right: auto;
 	width: 200px;
+	height: 200px;
 }
 
 
@@ -40,9 +42,10 @@
 
 .product-purchase-button{
 	margin-bottom: 20px;
-	margin-left: auto;
+	margin-top: 10px;
+	/*margin-left: auto;
 	margin-right: auto;
-	width: 60%;
+	width: 60%;*/
 }
 
 .delete-modal-header{
@@ -55,3 +58,38 @@
 .past-purchases-header{
 	margin-top: 100px;
 }
+
+/* User Cart Page */
+.cart-messages{
+	margin-top: 10px;
+}
+
+/* login/register page */
+.login-register-buttons{
+	margin-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*.cart-item{
+	border-bottom: 2px solid gray;
+	padding-bottom: 10px;
+}
+.cart-list-item{
+	list-style-type: none;
+
+}
+.cart-item-buttons{
+	margin-top: 10px;
+}*/
+/*
+.go-to-product-button{
+	float:right;
+	margin-left: 5px;
+	margin-right: 10px;
+}
+.remove-item{
+	float:right;
+	margin-left: 10px;
+	margin-right: 5px;
+}*/

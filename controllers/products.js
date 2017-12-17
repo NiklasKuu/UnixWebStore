@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const productModel = mongoose.model('ProductModel')
+const productModel = mongoose.model('ProductModel');
 const userModel = mongoose.model('UserModel');
 
 const respond = function(res,status,content){
@@ -46,6 +46,9 @@ module.exports.createNewProduct = function(req,res){
 		newProduct.description = req.body.description;
 		newProduct.setPrice(req.body.price);
 
+		if(req.body.image){
+			newProduct.image = req.body.image;
+		}
 
 		if(req.body.stock){
 			newProduct.stock = req.body.stock;	
@@ -102,6 +105,10 @@ module.exports.editProduct = function(req,res){
 			data.stock = req.body.stock;
 			data.bought = req.body.bought;
 			data.timeStamp = Date.now();
+
+			if(req.body.image){
+				data.image = req.body.image;
+			}
 
 			data.save(function(err){
 				if(err){
@@ -170,6 +177,56 @@ module.exports.deleteProduct = function(req,res){
 	}
 }
 
+module.exports.addToCart = function(req,res){
+	if(!req.body.amount || req.body.amount <= 0){
+		respond(res,400,{"message":"Incorrect product amount."});
+		return;
+	}
+	productModel.findOne({_id:req.params.id},function(err,data){
+
+		if(err){
+			respond(res,400,err);
+		} else if(!data){
+			respond(res,400,{"message":"could not find product matching id"});
+		} else if(data.stock < req.body.amount){
+			respond(res,400,{"message":"Not enough stock for purchase."});
+		} else {
+			userModel.findOne({_id:req.payload._id},function(err,user){
+				if(err){
+					respond(res,400,err);
+					return;
+				}
+
+
+				//checking if id is already in cart. If it is we add to its amount, otherwise we add a new product
+				let found = false;
+				for(let i = 0; i < user.cart.length;i++){
+					if(user.cart[i].product  == req.params.id){
+						found = true;
+						user.cart[i].amount += req.body.amount;
+					}
+				}
+				if(!found) {			// adding a new element into cart
+					user.cart.push({
+						product: req.params.id,
+						amount: req.body.amount,
+						name: data.name,
+						price: (data.price/100).toFixed(2)
+					});
+				}
+				user.save(function(err){
+					if(err){
+						respond(res,400,err);
+					} else {
+						respond(res,200,{"message": "Added to Cart"});
+					}
+				});
+							
+			});
+		}
+	});
+}
+/*
 module.exports.purchaseProduct = function(req,res){
 	productModel.findOne({_id:req.params.id},function(err,data){
 		if(err){
@@ -216,7 +273,7 @@ module.exports.purchaseProduct = function(req,res){
 			}
 		}
 	});
-}
+}*/
 
 module.exports.findNewest = function(req,res){
 	productModel.find({}).sort('-timeStamp').exec(function(err,data){

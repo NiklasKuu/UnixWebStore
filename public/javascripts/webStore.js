@@ -31,6 +31,10 @@ app.config(['$routeProvider', function($routeProvider){
        		templateUrl: 'partials/profilePage.html',
        		controller: 'ProfileCtrl'
        	})
+       	.when('/profile/:id/cart',{
+       		templateUrl: 'partials/UserCartPage.html',
+       		controller: 'CartCtrl'
+       	})
        	.when('/users',{
        		templateUrl: 'partials/usersListPage.html',
        		controller: 'UsersListCtrl'
@@ -52,5 +56,6 @@ app.controller('SearchCtrl',['$scope','$resource','$routeParams','$location','au
 app.controller('ProductCtrl',['$scope','$resource','$routeParams','$http','$location','authentication',productCtrl]);
 app.controller('LoginCtrl',['$scope','$resource','$location','authentication',loginCtrl]);
 app.controller('RegisterCtrl',['$scope','$resource','$location','authentication',registerCtrl]);
-app.controller('ProfileCtrl',['$scope','$resource','$routeParams','authentication',profileCtrl]);
-app.controller('UsersListCtrl',['$scope','$resource','authentication',usersListCtrl]);
+app.controller('ProfileCtrl',['$scope','$resource','$routeParams','$location','authentication',profileCtrl]);
+app.controller('CartCtrl',['$scope','$resource','$routeParams','$http','$location','authentication',cartCtrl]);
+app.controller('UsersListCtrl',['$scope','$resource','$location','authentication',usersListCtrl]);
